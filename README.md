@@ -1,4 +1,4 @@
-# Manual for fine-tuning on Open Catalyst Project (OCP).
+# Manual for fine-tuning on Open Catalyst Project (OCP)
 ---
 
 #### Welcome.
@@ -25,6 +25,12 @@ I shall be with you in every step.
 ---
 ## Set a conda environment
 
+All code is executed on our server.
+
+-(Linux CentOS release 7.9.2009)-
+
+'''
+conda env 
 
 
 
