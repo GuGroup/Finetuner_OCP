@@ -49,7 +49,7 @@ Follow me.
 
   ssh, MobaXTerm, or anything you use
 
-#### 2. Download this github code
+#### 2. Download files through this github code
 
 ```shell
 
@@ -99,6 +99,12 @@ Now you are ready for fine-tuning!
 
 ---
 ## Prepare a dataset
+
+Convert ase (OUTCAR or *.extxyz or *.traj) to aseDB or LMDB
+
+I recommend using LMDB, faster data loading and lower memory pressure
+
+
 
 
 
