@@ -17,7 +17,7 @@
 Entire fine-tuning process can be devided into four parts.
 
 * Set a conda environment 
-* Preparing a dataset
+* Prepare a dataset
 * Make a configuration file
 * Fine-tune pretrained model 
 
@@ -100,11 +100,139 @@ Now you are ready for fine-tuning!
 ---
 ## Prepare a dataset
 
-Convert ase (OUTCAR or *.extxyz or *.traj) to aseDB or LMDB
+Convert ase file (OUTCAR, *.extxyz, or *.traj) to ASEDB or LMDB
 
 I recommend using LMDB, faster data loading and lower memory pressure
 
+#### 1. Get a path of ase file
 
+Navigate to the folder that stores the ase file
+
+```shell
+pwd
+
+```
+Or just put the ase file into Finetuner_OCP folder
+
+```shell
+cp OUTCAR /home/[your name]/Finetuner_OCP
+
+```
+
+#### 2. run dbmaker.py
+
+Navigate back to your Finetuner_OCP folder
+
+```shell
+
+cd home/[your_name]/Finetuner_OCP
+
+```
+
+Run this line in linux console
+
+```shell
+python dbmaker.py --name [name_that_you_want] --path [path_that_you_got]
+
+```
+
+For example, name: Ag111 and path: /home/ytk/Finetuner_OCP/OUTCAR
+
+```shell
+python dbmaker.py --name Ag111 --path /home/ytk/Finetuner_OCP/OUTCAR
+
+```
+
+> [!TIP]
+> Name has no effect on processing. you can name it whatever you want!
+
+Navigate to the 'data' folder
+
+```shell
+cd data
+
+ls
+```
+
+You can see train, test, and val data splitted with [0.8, 0.1, 0.1] ratio
+
+```shell
+Ag111_train.lmdb Ag111_train.lmdb-lock 
+
+Ag111_test.lmdb Ag111_test.lmdb-lock Ag111_ase_test.db 
+
+Ag111_val.lmdb Ag111_val.lmdb-lock
+
+```
+> [!NOTE]
+> .lmdb-lock file is calm and kind. Don't care about it.
+
+You can check it with this code in python
+
+```python
+from fairchem.core.datasets import LmdbDataset
+train = LmdbDataset({'src':'Ag111_train.lmdb'})
+print(train[0])
+```
+
+You might see like this
+
+```shell
+Data(pos=[20, 3], cell=[1, 3, 3], atomic_numbers=[20], natoms=20, tags=[20], edge_index=[2, 815], cell_offsets=[815, 3], energy=-110.66750456, forces=[20, 3], fixed=[20], sid=[1], fid=[1])
+
+```
+
+
+Or if you want it to be with asedb, just put --asedb to the end of the line
+
+```shell
+python dbmaker.py --name Ag111 --path /home/ytk/Finetuner_OCP/OUTCAR --asedb
+```
+
+Navigate to the 'data' folder
+
+```shell
+cd data
+
+ls
+```
+
+You can see train, test, and val data splitted with [0.8, 0.1, 0.1] ratio
+
+```shell
+Ag111_ase_train.db Ag111_ase_test.db Ag111_ase_val.db 
+```
+
+You can check it with this line in linux console
+
+```shell
+ase db Ag111_ase_train.db
+```
+
+```shell
+id|age|user|formula|calculator|  energy|natoms| fmax|pbc| volume|charge|    mass
+ 1|15m|ytk |Pt16H3N|unknown   |-110.668|    20|0.488|TTT|816.864| 0.000|3138.375
+ 2|15m|ytk |Pt16H3N|unknown   |-110.666|    20|0.506|TTT|816.864| 0.000|3138.375
+ 3|15m|ytk |Pt16H3N|unknown   |-110.666|    20|0.471|TTT|816.864| 0.000|3138.375
+ 4|15m|ytk |Pt16H3N|unknown   |-110.666|    20|0.505|TTT|816.864| 0.000|3138.375
+ 5|15m|ytk |Pt16H3N|unknown   |-110.666|    20|0.471|TTT|816.864| 0.000|3138.375
+ 6|15m|ytk |Pt16H3N|unknown   |-110.666|    20|0.466|TTT|816.864| 0.000|3138.375
+ 7|15m|ytk |Pt16H3N|unknown   |-110.666|    20|0.512|TTT|816.864| 0.000|3138.375
+ 8|15m|ytk |Pt16H3N|unknown   |-110.666|    20|0.470|TTT|816.864| 0.000|3138.375
+ 9|15m|ytk |Pt16H3N|unknown   |-110.666|    20|0.508|TTT|816.864| 0.000|3138.375
+10|15m|ytk |Pt16H3N|unknown   |-110.666|    20|0.470|TTT|816.864| 0.000|3138.375
+11|15m|ytk |Pt16H3N|unknown   |-110.666|    20|0.466|TTT|816.864| 0.000|3138.375
+12|15m|ytk |Pt16H3N|unknown   |-110.666|    20|0.512|TTT|816.864| 0.000|3138.375
+13|15m|ytk |Pt16H3N|unknown   |-110.666|    20|0.508|TTT|816.864| 0.000|3138.375
+14|15m|ytk |Pt16H3N|unknown   |-110.666|    20|0.469|TTT|816.864| 0.000|3138.375
+15|15m|ytk |Pt16H3N|unknown   |-110.666|    20|0.507|TTT|816.864| 0.000|3138.375
+16|15m|ytk |Pt16H3N|unknown   |-110.666|    20|0.466|TTT|816.864| 0.000|3138.375
+17|15m|ytk |Pt16H3N|unknown   |-110.666|    20|0.470|TTT|816.864| 0.000|3138.375
+18|15m|ytk |Pt16H3N|unknown   |-110.666|    20|0.508|TTT|816.864| 0.000|3138.375
+19|15m|ytk |Pt16H3N|unknown   |-110.666|    20|0.471|TTT|816.864| 0.000|3138.375
+20|15m|ytk |Pt16H3N|unknown   |-110.666|    20|0.507|TTT|816.864| 0.000|3138.375
+Rows: 56 (showing first 20)
+```
 
 
 
