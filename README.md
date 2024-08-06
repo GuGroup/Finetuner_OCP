@@ -39,6 +39,12 @@ Window not checked
 ---
 ## Set a conda environment
 
+The environment setup for Meta lab differs slightly from the OCP recommended setup.
+
+I highly recommend creating a new environment using the **'env.gpu.yml'** file.
+
+
+
 
 
 
