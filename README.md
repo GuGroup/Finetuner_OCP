@@ -44,11 +44,12 @@ The environment setup for Meta lab differs slightly from the OCP recommended set
 I highly recommend creating a new environment using the **'env.gpu.yml'** file.
 
 Follow me.
+  
 
 #### 1. Login to server
 
   ssh, MobaXTerm, or anything you use
-
+  
 #### 2. Download files through this github code
 
 ```shell
