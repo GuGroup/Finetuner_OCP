@@ -49,6 +49,7 @@ Follow me.
 #### 1. Login to server
 
   ssh, MobaXTerm, or anything you use
+
   
 #### 2. Download files through this github code
 
@@ -58,6 +59,7 @@ git clone https://github.com/GuGroup/Finetuner_OCP
 
 ```
 
+  
 #### 3. Navigate to the **Finetuner_OCP** folder
 
 ```shell
@@ -66,6 +68,7 @@ cd Finetuner_OCP
 
 ```
 
+  
 #### 4. Create a new environment with the following code
 
 ```shell
@@ -76,10 +79,10 @@ conda env create -f env.gpu.yml
 
 (This process takes a few minutes.)
 
-> [!TIP]
+>  [!TIP]
 > You can change the name of the environment via **'vi env.gpu.yml'**
-
-
+  
+  
 #### 5. Activate git-chem
 
 ```shell
@@ -88,6 +91,7 @@ conda activate git-chem
 
 ```
 
+  
 #### 6. Download fairchem-core
 
 ```shell
@@ -101,9 +105,14 @@ Now you are ready for fine-tuning!
 ---
 ## Prepare a dataset
 
-Convert ase file (OUTCAR, *.extxyz, or *.traj) to ASEDB or LMDB
+Convert ase file (OUTCAR, *.extxyz, or *.traj) into LMDB or aseDB
 
 I recommend using LMDB, faster data loading and lower memory pressure
+
+>[!TIP]
+>Assembling every OUTCAR into one *.extxyz is recommended
+>
+>Information about extxyz: https://wiki.fysik.dtu.dk/ase/ase/io/formatoptions.html#extxyz
 
 #### 1. Get a path of ase file
 
@@ -120,6 +129,7 @@ cp OUTCAR /home/[your name]/Finetuner_OCP
 
 ```
 
+  
 #### 2. run dbmaker.py
 
 Navigate back to your Finetuner_OCP folder
@@ -183,7 +193,8 @@ Data(pos=[20, 3], cell=[1, 3, 3], atomic_numbers=[20], natoms=20, tags=[20], edg
 
 ```
 
-
+<br/>
+  
 Or if you want it to be with asedb, just put --asedb to the end of the line
 
 ```shell
