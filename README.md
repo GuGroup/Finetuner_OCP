@@ -43,9 +43,62 @@ The environment setup for Meta lab differs slightly from the OCP recommended set
 
 I highly recommend creating a new environment using the **'env.gpu.yml'** file.
 
+Follow me.
+
+#### 1. Login to server
+
+  ssh, MobaXTerm, or anything you use
+
+#### 2. Download this github code
+
+```shell
+
+git clone https://github.com/GuGroup/Finetuner_OCP
+
+```
+
+#### 3. Navigate to the **Finetuner_OCP** folder
+
+```shell
+
+cd Finetuner_OCP
+
+```
+
+#### 4. Create a new environment with the following code
+
+```shell
+
+conda env create -f env.gpu.yml
+
+```
+
+(This process takes a few minutes.)
+
+> [!TIP]
+> You can change the name of the environment via **'vi env.gpu.yml'**
 
 
+#### 5. Activate git-chem
 
+```shell
+
+conda activate git-chem
+
+```
+
+#### 6. Download fairchem-core
+
+```shell
+
+pip install fairchem-core==1.0.0
+
+```
+
+Now you are ready for fine-tuning!
+
+---
+## Prepare a dataset
 
 
 
