@@ -283,7 +283,8 @@ But if you are busy, just check 'dataset.(train/test/val).src'
 
 from fairchem.core.common.tutorial_utils import generate_yml_config
 # I cannot directly download pre-trained model in server, because of an error with HTTP
-# So pre-trained model file is saved in the Finetuner_OCP folder
+# So I put pre-trained model file in the Finetuner_OCP folder, as gnoc_oc22_oc20_all_s2ef.pt
+# If you want to start from other models, you can find it with OCP tutorial website
 
 checkpoint = './gnoc_oc22_oc20_all_s2ef.pt' # Gemnet-OC_S2EF_OC20+OC22
 
@@ -293,6 +294,7 @@ yml = generate_yml_config(checkpoint, 'config.yml',
                         'optim.load_balancing',
                         'dataset', 'test_dataset', 'val_dataset'], # There are unused parameter in Gemnet-OC, so delete
                 update={'gpus': 1, # number of GPU in fine-tuning
+                        'task.dataset': 'lmdb' # if you train with asedb, write 'asedb'
                         'optim.eval_every': 10, # In each 10 steps, reschedule learning rate by the loss of validation data, This affect to process time strongly, so set deliberately
                         'optim.max_epochs': 1,
                         'optim.batch_size': 4, # A6000 has about 20-30 max batch_size handle power. 16 batch size recommended for larger datset
@@ -331,6 +333,42 @@ OUTCAR config.yml data dbmaker.py env.gpu.yml gnoc_oc22_oc20_all_s2ef.pt ymlmake
 
 Now we are very close to fine-tuning.
 
+
+## Fine-tune pretrained model
+
+Type this line on your linux console
+
+```shell
+
+python main.py --mode train --config-yml config.yml --checkpoint ./gnoc_oc22_oc20_all_s2ef.pt --amp > train.txt 2>&1
+
+```
+Fine-tuning is on process.
+
+(If you want to change parameter or pretrained model, just touch **'config.yml'** file and use another **.pt file)
+
+Now we can see how fine-tuning is going with **'train.txt'**
+
+type this in linux console
+
+```shell
+tail -f -n 4 train.txt
+```
+
+And watch!
+
+```shell
+2024-08-08 13:41:34 (INFO): energy_forces_within_threshold: 0.0000, energy_mae: 24.6883, forcesx_mae: 0.0952, forcesy_mae: 0.1123, forcesz_mae: 0.4739, forces_mae: 0.2271, forces_cosine_similarity: -0.1308, forces_magnitude_error: 0.3816, loss: 25.2326, epoch: 0.5882
+```
+
+```shell
+2024-08-08 13:41:35 (INFO): Writing results to ./results/2024-08-08-13-41-36/ocp_predictions.npz
+2024-08-08 13:41:39 (INFO): Total time taken: 16.31741714477539
+```
+
+After you see 'Total time taken' its all over.
+
+Thanks.
 
 
 
