@@ -286,7 +286,7 @@ yml = generate_yml_config(checkpoint, 'config.yml',
                         'optim.load_balancing',
                         'dataset', 'test_dataset', 'val_dataset'], # There are unused parameter in Gemnet-OC, so delete
                 update={'gpus': 1, # number of GPU in fine-tuning
-                        'optim.eval_every': 10, # reschedule learning rate by the loss of validation data, in each 10 steps. This affect to process time strongly, so set deliberately
+                        'optim.eval_every': 10, # In each 10 steps, reschedule learning rate by the loss of validation data, This affect to process time strongly, so set deliberately
                         'optim.max_epochs': 1,
                         'optim.batch_size': 4,
                         'logger': 'tensorboard',
