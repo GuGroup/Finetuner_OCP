@@ -16,10 +16,12 @@
 
 Entire fine-tuning process can be devided into four parts.
 
-* Set a conda environment 
+* Set a conda environment
+* (Fast fine-tuning)
 * Prepare a dataset
 * Make a configuration file
-* Fine-tune pretrained model 
+* Fine-tune pretrained model
+* (Utilization)
 
 Easier than running a DFT calculation, so you don't need to worry.
 
@@ -52,6 +54,8 @@ Follow me.
 
   
 #### 2. Download files through this github code
+
+Type this on linux console
 
 ```shell
 
@@ -101,6 +105,53 @@ pip install fairchem-core==1.0.0
 ```
 
 Now you are ready for fine-tuning!
+
+---
+## (Fast fine-tuning)
+
+**Only if you are busy, tired, sick, or sad...**
+
+You can fine-tune with ytk's parameter pick.
+
+Copy your ase file (OUTCAR, *.extxyz or *.traj) to Finetuner_OCP folder
+
+```shell
+
+cp OUTCAR /home/[your name]/Finetuner_OCP
+
+```
+
+Navigate to the **'Finetuner_OCP'** folder
+
+```shell
+
+cd ~/Finetuner_OCP
+
+ls
+```
+```shell
+OUTCAR README.md config.yml dbmaker.py env.gpu.yml finetuner.py main.py ymlmaker.py
+
+```
+
+Type this line on linux console
+
+```shell
+
+python finetuner.py --name ytk --path ./OUTCAR
+
+```
+>[!NOTE]
+>If name of your ase file is not OUTCAR, so like ytk.extxyz or gu.traj, change line like this
+>
+>python finetuner.py --name ytk --path **./ytk.extxyz**
+
+Then you can get fine-tuned Gemnet-OC S2EF model directly
+
+It is a compressed version of upcoming 3 processes
+
+For usage of fine-tuned model, scroll down to final part of this manual
+
 
 ---
 ## Prepare a dataset
