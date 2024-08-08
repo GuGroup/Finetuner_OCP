@@ -249,7 +249,7 @@ Rows: 56 (showing first 20)
 ---
 ## Make a configuration file
 
-How to make **'config.yml'**
+you need **'config.yml'** for fine-tuning
 
 What is the role of **'config.yml'**?
 
@@ -263,12 +263,19 @@ you can find in the Finetuner_OCP folder
 
 ```shell
 ls
-vi ymlmaker.py
 ```
+```shell
+OUTCAR config.yml data dbmaker.py env.gpu.yml gnoc_oc22_oc20_all_s2ef.pt ymlmaker.py
+```
+
 
 This is a brief description about each parameter in **'ymlmaker.py'**
 
 I think it is better to check this code for your fine-tuning
+
+```shell
+vi ymlmaker.py
+```
 
 But if you are busy, just check 'dataset.(train/test/val).src'
 
@@ -308,6 +315,22 @@ yml = generate_yml_config(checkpoint, 'config.yml',
                         })
 
 ```
+
+After you run this code, you can find **'config.yml'** in Finetuner_OCP folder.
+
+```shell
+
+python ymlmaker.py
+ls
+
+```
+
+```shell
+OUTCAR config.yml data dbmaker.py env.gpu.yml gnoc_oc22_oc20_all_s2ef.pt ymlmaker.py
+```
+
+Now we are very close to fine-tuning.
+
 
 
 
