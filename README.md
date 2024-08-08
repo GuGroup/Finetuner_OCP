@@ -288,11 +288,11 @@ yml = generate_yml_config(checkpoint, 'config.yml',
                 update={'gpus': 1, # number of GPU in fine-tuning
                         'optim.eval_every': 10, # In each 10 steps, reschedule learning rate by the loss of validation data, This affect to process time strongly, so set deliberately
                         'optim.max_epochs': 1,
-                        'optim.batch_size': 4,
+                        'optim.batch_size': 4, # A6000 has about 20-30 max batch_size handle power.
                         'logger': 'tensorboard',
                         # Train data
-                        'dataset.train.src': './data/Ag111_train.lmdb',
-                        'dataset.train.format': 'lmdb',
+                        'dataset.train.src': './data/Ag111_train.lmdb', # location of data should be in here.
+                        'dataset.train.format': 'lmdb', # if you train with asedb, write 'asedb'
                         'dataset.train.a2g_args.r_energy': True,
                         'dataset.train.a2g_args.r_forces': True,
                         # Test data - prediction only so no regression
