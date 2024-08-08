@@ -367,6 +367,9 @@ yml = generate_yml_config(checkpoint, 'config.yml',
 
 ```
 
+>[!WARNING]
+>You have to change 'dataset.train.src': **'./data/Ag111_train.lmdb'** into your dataset name written in 'Prepare a dataset' part.
+
 After you run this code, you can find **'config.yml'** in Finetuner_OCP folder.
 
 ```shell
