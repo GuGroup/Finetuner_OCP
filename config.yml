@@ -99,7 +99,7 @@ model:
   symmetric_edge_symmetrization: false
 noddp: false
 optim:
-  batch_size: 4
+  batch_size: 16
   clip_grad_norm: 10
   ema_decay: 0.999
   energy_coefficient: 1
