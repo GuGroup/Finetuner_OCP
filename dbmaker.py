@@ -13,9 +13,7 @@ import os
 import argparse
 
 '''
-
 Welcome!
-This code is for 
 Convert ase.Atoms -> torch.geometric.data.data.Data -> Save on LMDB
 or
 ase.Atoms -> Save on aseDB
@@ -35,10 +33,12 @@ class converter:
                     r_fixed=True
                 )
         os.makedirs("data", exist_ok=True)
-
-    def _set_and_get_tags(self, atoms, ads=None): # Tagging each atom into Fixed: 0, Slab: 1, Adsorbate: 2
+        
+    # Tagging each atom into Fixed: 0, Slab: 1, Adsorbate: 2
+    def _set_and_get_tags(self, atoms, ads=None): 
         if ads==None: 
-            ads = ['H', 'C', 'O', 'He', 'N'] # If you have different adsorbate atoms, add its atomic symbol here
+            # If you have different adsorbate atoms, add its atomic symbol here
+            ads = ['H', 'C', 'O', 'He', 'N'] 
         atoms.set_tags(np.ones(len(atoms)))
         if atoms.constraints:
             for idx in atoms.constraints[0].index:
@@ -121,7 +121,7 @@ class converter:
                 forces = (calc.get_forces()).tolist()
                 atoms.calc = SinglePointCalculator(atoms, energy=energy, forces=forces)
                 self.asedb_val.write(atoms) 
-
+                
     def lmdb_convert(self):
         self._make_lmdb_files()
         traj = read(self.path, index=':')
