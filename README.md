@@ -322,7 +322,7 @@ OUTCAR data dbmaker.py env.gpu.yml finetuner.py main.py ymlmaker.py
 
 This is a brief description about each parameter in **'ymlmaker.py'**
 
-Recommend check this code for your fine-tuning
+Recommend check each line in this code for your fine-tuning
 
 ```shell
 vi ymlmaker.py
@@ -368,7 +368,7 @@ yml = generate_yml_config(checkpoint, 'config.yml',
 ```
 
 >[!WARNING]
->You have to change 'dataset.train.src': **'./data/Ag111_train.lmdb'** into your dataset name written in 'Prepare a dataset' part.
+>You have to change 'dataset.(train/test/val).src': **'./data/Ag111_(train/test/val).lmdb'** into the name you written in 'Prepare a dataset' part.
 
 After you run this code, you can find **'config.yml'** in Finetuner_OCP folder.
 
@@ -397,7 +397,7 @@ python main.py --mode train --config-yml config.yml --checkpoint ./gnoc_oc22_oc2
 ```
 Fine-tuning is on process.
 
-(If you want to change parameter or pretrained model, just touch **'config.yml'** file and use another **.pt file)
+(If you want to change parameter or pretrained model, just change **'config.yml'** file and --checkpoint )
 
 Now we can see how fine-tuning is going with **'train.txt'**
 
