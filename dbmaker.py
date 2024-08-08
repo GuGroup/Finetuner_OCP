@@ -12,13 +12,20 @@ import torch
 import os
 import argparse
 
+'''
 
+Welcome!
+This code is for 
+Convert ase.Atoms -> torch.geometric.data.data.Data -> Save on LMDB
+or
+ase.Atoms -> Save on aseDB
+
+'''
 class converter:
     def __init__(self, name, path):
-        if type(name) != str:
-            name = str(name)
-        self.name = name
+        self.name = str(name)
         self.path = str(path)
+        # AtomsToGraphs determines how to convert ase.Atoms -> torch.geometric.data.data.Data
         self.a2g = AtomsToGraphs(
                     max_neigh=50,
                     radius=6,
@@ -29,9 +36,9 @@ class converter:
                 )
         os.makedirs("data", exist_ok=True)
 
-    def _set_and_get_tags(self, atoms, ads=None):
+    def _set_and_get_tags(self, atoms, ads=None): # Tagging each atom into Fixed: 0, Slab: 1, Adsorbate: 2
         if ads==None: 
-            ads = ['H', 'C', 'O', 'He', 'N']
+            ads = ['H', 'C', 'O', 'He', 'N'] # If you have different adsorbate atoms, add its atomic symbol here
         atoms.set_tags(np.ones(len(atoms)))
         if atoms.constraints:
             for idx in atoms.constraints[0].index:
@@ -42,7 +49,7 @@ class converter:
         
         return atoms.get_tags()
 
-    def _make_lmdb_files(self):
+    def _make_lmdb_files(self): 
         self.lmdb_train = lmdb.open(
             f"data/{self.name}_train.lmdb",
             map_size=1099511627776 * 2,
