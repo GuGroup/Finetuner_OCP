@@ -316,13 +316,13 @@ you can find in the Finetuner_OCP folder
 ls
 ```
 ```shell
-OUTCAR config.yml data dbmaker.py env.gpu.yml gnoc_oc22_oc20_all_s2ef.pt ymlmaker.py
+OUTCAR data dbmaker.py env.gpu.yml finetuner.py main.py ymlmaker.py
 ```
 
 
 This is a brief description about each parameter in **'ymlmaker.py'**
 
-I think it is better to check this code for your fine-tuning
+Recommend check this code for your fine-tuning
 
 ```shell
 vi ymlmaker.py
@@ -333,11 +333,9 @@ But if you are busy, just check 'dataset.(train/test/val).src'
 ```python
 
 from fairchem.core.common.tutorial_utils import generate_yml_config
-# I cannot directly download pre-trained model in server, because of an error with HTTP
-# So I put pre-trained model file in the Finetuner_OCP folder, as gnoc_oc22_oc20_all_s2ef.pt
-# If you want to start from other models, you can find it with OCP tutorial website
+from fairchem.core.models.model_registry import model_name_to_local_file
 
-checkpoint = './gnoc_oc22_oc20_all_s2ef.pt' # Gemnet-OC_S2EF_OC20+OC22
+checkpoint = model_name_to_local_file('GemNet-OC-S2EFS-OC20+OC22', local_cache='./')
 
 yml = generate_yml_config(checkpoint, 'config.yml',
                 delete=['slurm', 'cmd', 'logger', 'task', 'model_attributes',
@@ -379,7 +377,7 @@ ls
 ```
 
 ```shell
-OUTCAR config.yml data dbmaker.py env.gpu.yml gnoc_oc22_oc20_all_s2ef.pt ymlmaker.py
+OUTCAR config.yml data dbmaker.py env.gpu.yml gnoc_oc22_oc20_all_s2ef.pt finetuner.py main.py ymlmaker.py
 ```
 
 Now we are very close to fine-tuning.
@@ -421,7 +419,10 @@ After you see 'Total time taken' its all over.
 
 Thanks.
 
+---
+## (Utilization)
 
+How to play with fine-tuned model?
 
 
 
