@@ -249,7 +249,7 @@ Rows: 56 (showing first 20)
 ---
 ## Make a configuration file
 
-In this process, you will learn how to make **'config.yml'**
+How to make **'config.yml'**
 
 What is the role of **'config.yml'**?
 
@@ -257,7 +257,7 @@ What is the role of **'config.yml'**?
 
 If you are familiar with DFT, you can treat **'config.yml'** as INCAR
 
-Let me introduce, our **'config.yml'** maker, name as **'ymlmaker.py'**
+With **'ymlmaker.py'**, you can make the **'config.yml'** file
 
 you can find in the Finetuner_OCP folder
 
@@ -275,15 +275,18 @@ But if you are busy, just check 'dataset.(train/test/val).src'
 ```python
 
 from fairchem.core.common.tutorial_utils import generate_yml_config
-checkpoint = './gnoc_oc22_oc20_all_s2ef.pt'
+# I cannot directly download pre-trained model in server, because of an error with HTTP
+# So pre-trained model file is saved in the Finetuner_OCP folder
+
+checkpoint = './gnoc_oc22_oc20_all_s2ef.pt' # Gemnet-OC_S2EF_OC20+OC22
 
 yml = generate_yml_config(checkpoint, 'config.yml',
                 delete=['slurm', 'cmd', 'logger', 'task', 'model_attributes',
                         'optim.loss_force',
                         'optim.load_balancing',
-                        'dataset', 'test_dataset', 'val_dataset'],
-                update={'gpus': 1,
-                        'optim.eval_every': 10,
+                        'dataset', 'test_dataset', 'val_dataset'], # There are unused parameter in Gemnet-OC, so delete
+                update={'gpus': 1, # number of GPU in fine-tuning
+                        'optim.eval_every': 10, # reschedule learning rate by the loss of validation data, in each 10 steps. This affect to process time strongly, so set deliberately
                         'optim.max_epochs': 1,
                         'optim.batch_size': 4,
                         'logger': 'tensorboard',
@@ -305,7 +308,6 @@ yml = generate_yml_config(checkpoint, 'config.yml',
                         })
 
 ```
-
 
 
 
