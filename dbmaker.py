@@ -14,10 +14,8 @@ import argparse
 
 '''
 Welcome!
-Convert ase.Atoms -> torch.geometric.data.data.Data -> Save on LMDB
-or
-ase.Atoms -> Save on aseDB
-
+Convert ase.Atoms -> torch.geometric.data.data.Data -> Save on LMDB 
+or      ase.Atoms -> Save on aseDB
 '''
 class converter:
     def __init__(self, name, path):
@@ -52,7 +50,7 @@ class converter:
     def _make_lmdb_files(self): 
         self.lmdb_train = lmdb.open(
             f"data/{self.name}_train.lmdb",
-            map_size=1099511627776 * 2,
+            map_size=1099511627776 * 2, # About 60GB LMDB file is okay with this map size. But if you want to make more more large LMDB, size should be larger
             subdir=False,
             meminit=False,
             map_async=True,
@@ -99,7 +97,7 @@ class converter:
             i = np.random.randint(100)
 
             if i<=80:
-                atoms.set_tags(self._set_and_get_tags(atoms))
+                atoms.set_tags(self._set_and_get_tags(atoms)) #it looks funny..
                 calc = atoms.calc
                 energy = calc.get_potential_energy()
                 forces = (calc.get_forces()).tolist()
@@ -121,7 +119,9 @@ class converter:
                 forces = (calc.get_forces()).tolist()
                 atoms.calc = SinglePointCalculator(atoms, energy=energy, forces=forces)
                 self.asedb_val.write(atoms) 
-                
+
+
+    # sid: Security id, fid: File id
     def lmdb_convert(self):
         self._make_lmdb_files()
         traj = read(self.path, index=':')
@@ -131,8 +131,11 @@ class converter:
         fid_val = 0
 
         for idx, atoms in tqdm(enumerate(traj), total=len(traj)):
-            i = np.random.randint(100)
+            i = np.random.randint(100) # Manual split method..
 
+            # data means torch.geometric.data.data
+            # ase.Atoms converted into torch.geometric.data.data and get id and tag
+            # data is stored to each lmdbfile with txn (transaction)
             if i<=80:
                 data = self.a2g.convert(atoms)
                 data.sid = torch.LongTensor([0])
@@ -171,7 +174,7 @@ class converter:
                 txn.commit()
                 fid_val += 1
         
-        # Total length for each dataset required
+        # Total length of dataset required in LMDB
         txn = self.lmdb_train.begin(write=True)
         txn.put(f"length".encode("ascii"), pickle.dumps(fid_train, protocol=-1))
         txn.commit()
