@@ -392,7 +392,7 @@ Type this line on your linux console
 
 ```shell
 
-python main.py --mode train --config-yml config.yml --checkpoint ./gnoc_oc22_oc20_all_s2ef.pt --amp > train.txt 2>&1
+python main.py --mode train --config-yml config.yml --run-dir fine-tuning --checkpoint ./gnoc_oc22_oc20_all_s2ef.pt --amp > train.txt 2>&1
 
 ```
 Fine-tuning is on process.
