@@ -15,6 +15,17 @@ import os
 import argparse
 import time
 import subprocess
+'''
+Total assembly of prepare dataset - make configuration file - run fine-tuning
+So code structure is same with each files
+If you want to modify this, I recommend do it after undertstanding other files
+
+ykt's parameter pick:
+Dataset: lmdb
+pre-trained model: GemNet-OC_S2EFS_OC20+OC22
+batch_size: 16
+eval_every: 10
+'''
 
 class converter:
     def __init__(self, name, path):
@@ -199,7 +210,7 @@ class converter:
                                 'task.dataset': 'lmdb',
                                 'optim.eval_every': 10,
                                 'optim.max_epochs': 1,
-                                'optim.batch_size': 4,
+                                'optim.batch_size': 16,
                                 'logger': 'tensorboard',
                                 'dataset.train.src': f'./data/{self.name}_train.lmdb',
                                 'dataset.train.format': 'lmdb',
