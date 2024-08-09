@@ -21,7 +21,8 @@ Entire fine-tuning process can be devided into four parts.
 * Prepare a dataset
 * Make a configuration file
 * Fine-tune pretrained model
-* (Utilization)
+
+(There is utilization part on bottom)
 
 Easier than running a DFT calculation, so you don't need to worry.
 
@@ -130,7 +131,7 @@ cd ~/Finetuner_OCP
 ls
 ```
 ```shell
-OUTCAR README.md config.yml dbmaker.py env.gpu.yml finetuner.py main.py ymlmaker.py
+OUTCAR README.md config.yml dbmaker.py dftocp.py env.gpu.yml finetuner.py main.py ymlmaker.py
 
 ```
 
@@ -316,7 +317,7 @@ you can find in the Finetuner_OCP folder
 ls
 ```
 ```shell
-OUTCAR data dbmaker.py env.gpu.yml finetuner.py main.py ymlmaker.py
+OUTCAR data dbmaker.py dftocp.py env.gpu.yml finetuner.py main.py ymlmaker.py
 ```
 
 
@@ -380,7 +381,7 @@ ls
 ```
 
 ```shell
-OUTCAR config.yml data dbmaker.py env.gpu.yml gnoc_oc22_oc20_all_s2ef.pt finetuner.py main.py ymlmaker.py
+OUTCAR config.yml data dbmaker.py dftocp.py env.gpu.yml gnoc_oc22_oc20_all_s2ef.pt finetuner.py main.py ymlmaker.py
 ```
 
 Now we are very close to fine-tuning.
@@ -423,9 +424,43 @@ After you see 'Total time taken' its all over.
 Thanks.
 
 ---
-## (Utilization)
+## Utilization
 
 How to play with fine-tuned model?
+
+Open ase.Atoms in python and put your fine-tuned model as calculator!
+
+```python
+from farichem.core.common.relaxation.ase_utils import OCPCalculator
+from ase.io import read
+
+# Due to timestamping on folder name (2024-08-...), You need to change path of the checkpoint with your situation
+checkpoint = './fine-tuning/checkpoints/2024-08-09-10-59-28-ytk/best_checkpoint.pt' 
+
+# If you run this on a GPU node, cpu=False
+newcalc = OCPCalculator(checkpoint_path=checkpoint, cpu=True)
+traj = read('./OUTCAR', index=':')
+
+atoms = traj[0]
+atoms.calc = newcalc
+print(atoms.get_potential_energy())
+```
+```shell
+-118.8056945800
+```
+
+I uploaded **'dftocp.py'** in Finetuner_OCP folder.
+
+You can get .json file of potential energy in dft and ocp with it.
+
+I recommend playing with it more..
+
+
+---
+
+# This is the end...
+
+
 
 
 
