@@ -19,17 +19,14 @@ https://fair-chem.github.io/index.html
 
 ## A tiny description before you start
 
-Entire fine-tuning process can be devided into four parts.
+Entire fine-tuning process can be devided into two parts.
 
 * Set a conda environment
-* (Fast fine-tuning)
-* Prepare a dataset
-* Make a configuration file
-* Fine-tune pretrained model
+* Fine-tuning
 
-(There is utilization part on bottom)
+(There is an utilization part on bottom)
 
-Easier than running a DFT calculation, so you don't need to worry.
+Much easier than running a DFT calculation, so you don't need to worry.
 
 I shall be with you in every step.
 
@@ -113,9 +110,9 @@ pip install fairchem-core==1.0.0
 Now you are ready for fine-tuning!
 
 ---
-## (Fast fine-tuning)
+## Fine-tuning
 
-**Only if you are busy, tired, sick, or sad...**
+**One Step Fine-tuning**
 
 You can fine-tune with ytk's parameter pick.
 
@@ -136,7 +133,7 @@ cd ~/Finetuner_OCP
 ls
 ```
 ```shell
-OUTCAR README.md config.yml dbmaker.py dftocp.py env.gpu.yml finetuner.py main.py ymlmaker.py
+OUTCAR README.md dftocp.py env.gpu.yml finetuner.py main.py
 
 ```
 
@@ -144,7 +141,7 @@ Type this line on linux console
 
 ```shell
 
-python finetuner.py --name ytk --path ./OUTCAR
+python finetuner.py --name [name_that_you_want] --path ./OUTCAR --db asedb
 
 ```
 >[!NOTE]
